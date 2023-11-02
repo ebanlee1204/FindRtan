@@ -8,7 +8,16 @@ public class GameManager : MonoBehaviour
 {
     public Text timeTxt;
     public GameObject card;
+    public GameObject firstCard;
+    public GameObject secondCard;
     float time = 0.0f;
+
+    public static GameManager I;
+
+    void Awake()
+    {
+        I = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -39,4 +48,25 @@ public class GameManager : MonoBehaviour
         time += Time.deltaTime;
         timeTxt.text = time.ToString("N2");
     }
+
+    public void isMatched()
+    {
+        string firstCardImage = firstCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite.name;
+        string secondCardImage = secondCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite.name;
+
+        if (firstCardImage == secondCardImage)
+        {
+            firstCard.GetComponent<card>().destroyCard();
+            secondCard.GetComponent<card>().destroyCard();
+        }
+        else
+        {
+            firstCard.GetComponent<card>().closeCard();
+            secondCard.GetComponent<card>().closeCard();
+        }
+
+        firstCard = null;
+        secondCard = null;
+    }
+
 }
